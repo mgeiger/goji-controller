@@ -1,6 +1,13 @@
-#define photoPin A0
-#define tempPin  A1
-#define dhtPin   0
+// Includes
+#include <dht11.h>
+
+// Arduino Pin Defines
+#define PHOTO_PIN   A0
+#define TEMP_PIN    A1
+#define DHT11_PIN   0
+
+// Global Variables
+dht11 DHT11;
 
 void setup() {
   // initialize the serial communication:
