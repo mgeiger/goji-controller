@@ -1,3 +1,7 @@
+#define photoPin A0
+#define tempPin  A1
+#define dhtPin   0
+
 void setup() {
   // initialize the serial communication:
   Serial.begin(9600);
