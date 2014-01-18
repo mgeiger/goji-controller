@@ -3,8 +3,8 @@
 // Author:     Matthew J. Geiger
 // Version:    0.1
 // Target:     n/a
-// Date:       2014.01.04
-// Time:       07:47
+// Date:       2014.01.18
+// Time:       15:08
 // Notes:
 //             Serial I/O
 //             DHT11 Library
@@ -12,8 +12,7 @@
 //
 // Circuit:
 //             Analog Input
-//             * 0 - Photocell
-//             * 1 - MCP9700
+//             * 0 - MCP9700
 //             Digital Input
 //             * 0 - DHT11
 //=========================================================
@@ -28,14 +27,12 @@
 
 //===[ PINS ]===============================================
 // Arduino Pin Defines
-int PHOTO_PIN = A0
-int TEMP_PIN = A1
-int DHT11_PIN =  0
+#define TEMP_PIN  A0
+#define DHT11_PIN 0
 
 //===[ VARIABLES ]=========================================
 // Global Variables
 dht11 DHT11;
-int photoValue;
 
 //===[ SETUP ]=============================================
 void setup() {
@@ -57,23 +54,23 @@ void loop() {
     Serial.print("Read sensor: ");
     switch (chk)
     {
-      case DHTLIB_OK:
-        Serial.println("OK"); 
-	break;
-      case DHTLIB_ERROR_CHECKSUM: 
-	Serial.println("Checksum error"); 
-	break;
-      case DHTLIB_ERROR_TIMEOUT: 
-	Serial.println("Time out error"); 
-	break;
-      default: 
-	Serial.println("Unknown error"); 
-	break;
+    case DHTLIB_OK:
+      Serial.println("OK"); 
+      break;
+    case DHTLIB_ERROR_CHECKSUM: 
+      Serial.println("Checksum error"); 
+      break;
+    case DHTLIB_ERROR_TIMEOUT: 
+      Serial.println("Time out error"); 
+      break;
+    default: 
+      Serial.println("Unknown error"); 
+      break;
     }
   }
-  
+
   // send the value of analog input 0:
-  Serial.println(analogRead(A0));
+  Serial.println(analogRead(TEMP_PIN));
   // wait a bit for the analog-to-digital converter 
   // to stabilize after the last reading:
   delay(2);
@@ -89,3 +86,4 @@ float mcp2celcius(int mcp) {
   return temp;
 }
 //=========================================================
+
