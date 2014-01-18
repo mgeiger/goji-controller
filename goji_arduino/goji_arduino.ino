@@ -23,16 +23,23 @@
 
 //===[ CONSTANTS ]=========================================
 // Debugging - 1:Enable; 0:Disable
-#define DEBUG       1
+#define DEBUG       0
+
+// The number or readins for Array
+const int numReadings = 10;
 
 //===[ PINS ]===============================================
 // Arduino Pin Defines
 #define TEMP_PIN  A0
-#define DHT11_PIN 0
+#define DHT11_PIN 2
 
 //===[ VARIABLES ]=========================================
 // Global Variables
 dht11 DHT11;
+int readings[numReadings];
+int index = 0;
+int total = 0;
+int average = 0;
 
 //===[ SETUP ]=============================================
 void setup() {
@@ -48,7 +55,7 @@ void setup() {
 
 //===[ LOOP ]==============================================
 void loop() {
-  // Check status of the DHT11 Sensor
+    // Check status of the DHT11 Sensor
   if (DEBUG) {
     int chk = DHT11.read(DHT11_PIN);
     Serial.print("Read sensor: ");
@@ -68,12 +75,31 @@ void loop() {
       break;
     }
   }
+  // Get the DHT11 Values
+  float h = (float)DHT11.humidity;
+  float t1 = (float)DHT11.temperature;
 
-  // send the value of analog input 0:
-  Serial.println(analogRead(TEMP_PIN));
+  // Filter out the MCP9700 
+  total = total - readings[index];
+  readings[index] = analogRead(TEMP_PIN);
+  total = total + readings[index];
+  index = index + 1;
+  
+  if (index >= numReadings) {
+    index = 0;
+  }
+    
+  average = total / numReadings;
+  
+  Serial.print(mcp2celcius(average), 4);
+  Serial.print(",");
+  Serial.print(t1, 4);
+  Serial.print(",");
+  Serial.println(h, 4);
+
   // wait a bit for the analog-to-digital converter 
   // to stabilize after the last reading:
-  delay(2);
+  delay(10);
 }
 
 //===[ SUBROUTINES ]=======================================
@@ -86,4 +112,5 @@ float mcp2celcius(int mcp) {
   return temp;
 }
 //=========================================================
+
 
