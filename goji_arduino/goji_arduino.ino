@@ -50,6 +50,7 @@ int readings[numReadings];
 int index = 0;
 int total = 0;
 int average = 0;
+boolean filled = false;
 
 //===[ SETUP ]=============================================
 void setup() {
@@ -95,13 +96,21 @@ void loop() {
   total = total + readings[index];
   index = index + 1;
   
+  if ((index == numReadings) && (!filled)) {
+     filled = true; 
+  }
+  
   if (index >= numReadings) {
     index = 0;
   }
     
   average = total / numReadings;
   
-  Serial.print(mcp2celcius(average), 4);
+  if (!filled) {
+    Serial.print(readings[index], 4);
+  } else {
+    Serial.print(mcp2celcius(average), 4);
+  }
   Serial.print(",");
   Serial.print(t1, 4);
   Serial.print(",");
