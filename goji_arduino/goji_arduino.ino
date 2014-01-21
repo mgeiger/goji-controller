@@ -12,9 +12,15 @@
 //
 // Circuit:
 //             Analog Input
-//             * 0 - MCP9700
+//             * A0 - MCP9700
+//             * A1 - Photo Resistor
+//             * A2 - Water Sensor
 //             Digital Input
-//             * 0 - DHT11
+//             * 2 - DHT11
+//             Digital Output
+//             * 3 - Water Sensor Switch
+//             * 4 - Fan PWM/Switch
+//
 //=========================================================
 
 
@@ -30,8 +36,12 @@ const int numReadings = 10;
 
 //===[ PINS ]===============================================
 // Arduino Pin Defines
-#define TEMP_PIN  A0
-#define DHT11_PIN 2
+#define TEMP_PIN    A0
+#define PHTOTO_PIN  A1
+#define WATER_PIN   A2
+#define DHT11_PIN   2
+#define WSWITCH_PIN 3
+#define FAN_PIN     4
 
 //===[ VARIABLES ]=========================================
 // Global Variables
