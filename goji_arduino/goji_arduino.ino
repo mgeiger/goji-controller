@@ -8,6 +8,8 @@
 // Notes:
 //             Serial I/O
 //             DHT11 Library
+//             Data Output: t0, t1, hum, phot, watr
+//
 // Reference:
 //
 // Circuit:
@@ -89,6 +91,10 @@ void loop() {
   // Get the DHT11 Values
   float h = (float)DHT11.humidity;
   float t1 = (float)DHT11.temperature;
+  
+  // Dummy values for photo and water
+  float p = 0.0;
+  float w = 0.0;
 
   // Filter out the MCP9700 
   total = total - readings[index];
@@ -106,6 +112,10 @@ void loop() {
     
   average = total / numReadings;
   
+  // The printed order will be:
+  // t0, t1, h, p, w
+  // Temperature 0, Temperature 1, Humidity, Photoresistor, Water Sensor
+  
   if (!filled) {
     Serial.print(readings[index], 4);
   } else {
@@ -114,7 +124,12 @@ void loop() {
   Serial.print(",");
   Serial.print(t1, 4);
   Serial.print(",");
-  Serial.println(h, 4);
+  Serial.print(h, 4);
+  Serial.print(",");
+  Serial.print(p, 4);
+  Serial.print(",");
+  Serial.println(w, 4);
+  
 
   // wait a bit for the analog-to-digital converter 
   // to stabilize after the last reading:
