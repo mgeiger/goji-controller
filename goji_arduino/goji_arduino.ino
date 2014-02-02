@@ -67,85 +67,16 @@ unsigned long deltaTime = 0;
 
 //===[ SETUP ]=============================================
 void setup() {
-  // initialize the serial communication:
   Serial.begin(9600);
-  // if (DEBUG) {
-  //   Serial.println("GOJI Controller ");
-  //   Serial.print("DHT11 LIBRARY VERSION: ");
-  //   Serial.println(DHT11LIB_VERSION);
-  //   Serial.println();
-  // }
 }
 
 //===[ LOOP ]==============================================
 void loop() {
-//    // Check status of the DHT11 Sensor
-//  if (DEBUG) {
-//    int chk = DHT11.read(DHT11_PIN);
-//    Serial.print("Read sensor: ");
-//    switch (chk)
-//    {
-//    case DHTLIB_OK:
-//      Serial.println("OK"); 
-//      break;
-//    case DHTLIB_ERROR_CHECKSUM: 
-//      Serial.println("Checksum error"); 
-//      break;
-//    case DHTLIB_ERROR_TIMEOUT: 
-//      Serial.println("Time out error"); 
-//      break;
-//    default: 
-//      Serial.println("Unknown error"); 
-//      break;
-//    }
-//  }
-//  // Get the DHT11 Values
-//  float h = (float)DHT11.humidity;
-//  float t1 = (float)DHT11.temperature;
-//  
-//  // Dummy values for photo and water
-//  float p = 0.0;
-//  float w = 0.0;
-//
-//  // Filter out the MCP9700 
-//  total = total - readings[index];
-//  readings[index] = analogRead(TEMP_PIN);
-//  total = total + readings[index];
-//  index = index + 1;
-//  
-//  if ((index == numReadings) && (!filled)) {
-//     filled = true; 
-//  }
-//  
-//  if (index >= numReadings) {
-//    index = 0;
-//  }
-//    
-//  average = total / numReadings;
-//  
-//  // The printed order will be:
-//  // t0, t1, h, p, w
-//  // Temperature 0, Temperature 1, Humidity, Photoresistor, Water Sensor
-//  
-//  if (!filled) {
-//    Serial.print(readings[index], 4);
-//  } else {
-//    Serial.print(mcp2celcius(average), 4);
-//  }
-//  Serial.print(",");
-//  Serial.print(t1, 4);
-//  Serial.print(",");
-//  Serial.print(h, 4);
-//  Serial.print(",");
-//  Serial.print(p, 4);
-//  Serial.print(",");
-//  Serial.println(w, 4);
-  
   if ((millis() - deltaTime) >= refreshInterval) {
     deltaTime = millis();
     updateAllSensorValues();
   }
-  
+  printAllSensors();
 }
 
 //===[ SUBROUTINES ]=======================================
@@ -166,6 +97,7 @@ void updateAllSensorValues() {
   updateDhtValues();
 }
 
+// Used to update the DHT11 values.
 void updateDhtValues() {
   int chk = DHT11.read(DHT11_PIN);
     switch (chk) {
@@ -185,6 +117,18 @@ void updateDhtValues() {
 
     float h = (float)DHT11.humidity;
     float t1 = (float)DHT11.temperature;
+}
+
+void printAllSensors() {
+  Serial.print(temp0);
+  Serial.print(",");
+  Serial.print(humid);
+  Serial.print(",");
+  Serial.print(temp1);
+  Serial.print(",");
+  Serial.print(water);
+  Serial.print(",");
+  Serial.println(photo);
 }
 //=========================================================
 
